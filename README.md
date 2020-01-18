@@ -1,7 +1,6 @@
 
 # Daniel Giovanni
-Jawaban Technical Test Bootcamp Dumbways.id Batch 14 Kloter 5
-Readme 
+Jawaban Technical Test Bootcamp Dumbways.id Batch 14 Kloter 5 
 - Untuk semua jawaban menggunkan file PHP Versi 7.0 dan khusus Soal no 1 dan 4 ada kombinasi Bootstrap untuk tampilan HTMLnya.
 - Untuk jawaban Soal 1.php , 2.php , 3.php bisa di test pada url http://phptester.net/ 
 - Untuk Soal No 4 aplikasi sederhana untuk CRUD table pokemon. 
