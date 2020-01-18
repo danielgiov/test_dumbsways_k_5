@@ -12,13 +12,95 @@ define("PHP_DBNAME","web_pokemon");
 $mysqli = new mysqli(PHP_DBHOST, PHP_DBUSER, PHP_DBPASS, PHP_DBNAME);
 
 
+
+//Query Pokemon
+
 if(isset($_POST["button_pokemon"]))
 {
     $sql_inst="
-        
+        INSERT INTO pokemon_tb
+        SET 
+        name = '".addslashes($_POST["name_pokemon"])."',
+        str = '".addslashes($_POST["str_pokemon"])."',
+        def = '".addslashes($_POST["def_pokemon"])."',
+        photo = '".addslashes($_POST["photo_pokemon"])."'
+
     ";
+    $mysqli->query($sql_inst); 
+    echo "<script>window.location = '4.php'</script>";
+	exit;	
 }
 
+if(isset($_POST["button_pokemon_edit"]))
+{
+    $sql_inst="
+        UPDATE pokemon_tb
+        SET 
+            name = '".addslashes($_POST["name_pokemon"])."',
+            str = '".addslashes($_POST["str_pokemon"])."',
+            def = '".addslashes($_POST["def_pokemon"])."',
+            photo = '".addslashes($_POST["photo_pokemon"])."'
+        WHERE 
+            id = '".addslashes($_POST["id_pokemon"])."'
+    ";
+    $mysqli->query($sql_inst); 
+    echo "<script>window.location = '4.php'</script>";
+	exit;	
+}
+
+if(isset($_GET["id_pokemon"]))
+{
+    $sql_del="
+        DELETE FROM pokemon_tb WHERE id = ".$_GET["id_pokemon"]."
+
+    ";
+    $mysqli->query($sql_del); 
+    echo "<script>window.location = '4.php'</script>";
+	exit;	
+}
+
+//Query Element
+
+if(isset($_POST["button_element"]))
+{
+    $sql_inst="
+        INSERT INTO element_tb
+        SET 
+        name = '".addslashes($_POST["name_element"])."'
+
+    ";
+    $mysqli->query($sql_inst); 
+    echo "<script>window.location = '4.php'</script>";
+	exit;	
+}
+
+if(isset($_POST["button_element_edit"]))
+{
+    $sql_inst="
+        UPDATE element_tb
+        SET 
+            name = '".addslashes($_POST["name_element"])."'
+        WHERE 
+            id = '".addslashes($_POST["id_element"])."'
+    ";
+    $mysqli->query($sql_inst); 
+    echo "<script>window.location = '4.php'</script>";
+	exit;	
+}
+
+
+if(isset($_GET["id_element"]))
+{
+    $sql_del="
+        DELETE FROM element_tb WHERE id = ".$_GET["id_element"]."
+
+    ";
+    $mysqli->query($sql_del); 
+    echo "<script>window.location = '4.php'</script>";
+	exit;	
+}
+
+// Get data 
 $tr_body_pokemon='';
 $sql_pokemon = 
 "
@@ -39,9 +121,30 @@ while($row_pokemon = $rslt_pokemon->fetch_assoc())
                             <td style="text-align: center;">'.$row_pokemon["str"].'</td>
                             <td style="text-align: center;">'.$row_pokemon["def"].'</td>
                             <td style="text-align: center;">'.$row_pokemon["photo"].'</td>
+                            <td style="text-align: center;"><a class="btn btn btn-primary" href="4.php?edit=p&id='.$row_pokemon["id"].'">Edit</a>&nbsp;<a class="btn btn btn-primary" href="4.php?id_pokemon='.$row_pokemon["id"].'">Delete</a></td>
                         </tr>';
 }
 
+$tr_body_element='';
+$sql_element = 
+"
+    SELECT 
+        * 
+    FROM 
+        element_tb
+";
+//echo '<code>'.$sql_page.'</code><br><br>';
+$rslt_element = $mysqli->query($sql_element); 
+$i = 0;
+while($row_element = $rslt_element->fetch_assoc())
+{
+    $i++;
+    $tr_body_element .='<tr>
+                            <th scope="row">'.$i.'</th>
+                            <td style="text-align: center;">'.$row_element["name"].'</td>
+                            <td style="text-align: center;"><a class="btn btn btn-primary" href="4.php?edit=e&id='.$row_element["id"].'">Edit</a>&nbsp;<a class="btn btn btn-primary" href="4.php?id_element='.$row_element["id"].'">Delete</a></td>
+                        </tr>';
+}
 ?>
 
 
@@ -59,6 +162,7 @@ while($row_pokemon = $rslt_pokemon->fetch_assoc())
   </head>
   <body style="padding-top: 100px;padding-right: 30px;padding-bottom: 50px;padding-left: 80px;">
     
+    <?php if(!isset($_GET["edit"])) { ?>
     <div class="container">
         <div class="row align-items-center h-100">
                 <div class="card" >
@@ -76,21 +180,21 @@ while($row_pokemon = $rslt_pokemon->fetch_assoc())
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">str</span>
                             </div>
-                            <input type="text" class="form-control" id="str_pokemon" name="str_pokemon"  value="" aria-describedby="inputGroup-sizing-lg" required> 
+                            <input type="text" class="form-control" id="str_pokemon" name="str_pokemon"  value="" aria-describedby="inputGroup-sizing-lg" > 
                         </div>
                         <br>
                         <div class="input-group input-group-lg">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">def</span>
                             </div>
-                            <input type="text" class="form-control" id="def_pokemon" name="def_pokemon"  value="" aria-describedby="inputGroup-sizing-lg" required> 
+                            <input type="text" class="form-control" id="def_pokemon" name="def_pokemon"  value="" aria-describedby="inputGroup-sizing-lg" > 
                         </div>
                         <br>
                         <div class="input-group input-group-lg">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">photo</span>
                             </div>
-                            <input type="text" class="form-control" id="photo_pokemon" name="photo_pokemon"  value="" aria-describedby="inputGroup-sizing-lg" required> 
+                            <input type="text" class="form-control" id="photo_pokemon" name="photo_pokemon"  value="" aria-describedby="inputGroup-sizing-lg" > 
                         </div>
                         <br>
                         
@@ -113,6 +217,7 @@ while($row_pokemon = $rslt_pokemon->fetch_assoc())
                 <th scope="col" style="text-align: center;">str</th>
                 <th scope="col" style="text-align: center;">def</th>
                 <th scope="col" style="text-align: center;">photo</th>
+                <th scope="col" style="text-align: center;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,6 +225,149 @@ while($row_pokemon = $rslt_pokemon->fetch_assoc())
             </tbody>
         </table>
     </div>
+
+    <br>
+
+    <div class="container">
+        <div class="row align-items-center h-100">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title">Data Element</h5>
+                        <form action="" method="POST">
+                        <div class="input-group input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-lg">Nama</span>
+                            </div>
+                            <input type="text" class="form-control" id="name_element" name="name_element"  value="" aria-describedby="inputGroup-sizing-lg" required> 
+                        </div>
+                        <br>
+                       
+                        <input type="submit" name="button_element" id="button_element" value="Add" class="btn btn btn-success"  />
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Element Table</label>
+        
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col" style="text-align: left;">No</th>
+                <th scope="col" style="text-align: center;">Nama</th>
+                <th scope="col" style="text-align: center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php echo $tr_body_element;?>
+            </tbody>
+        </table>
+    </div>
+    <?php } else {
+        if($_GET["edit"] == 'p')
+        {
+
+            $sql_pokemon = 
+            "
+                SELECT 
+                    * 
+                FROM 
+                    pokemon_tb
+                WHERE 
+                    id = '".$_GET["id"]."'
+            ";
+            $rslt_pokemon = $mysqli->query($sql_pokemon); 
+            $row_pokemon = $rslt_pokemon->fetch_assoc();
+
+            ?>
+            <div class="container">
+                <div class="row align-items-center h-100">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Edit data Pokemon</h5>
+                                <form action="" method="POST">
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-lg">Nama</span>
+                                    </div>
+                                    <input type="hidden" class="form-control" id="id_pokemon" name="id_pokemon"  value="<?php echo $_GET["id"]?>" aria-describedby="inputGroup-sizing-lg" required> 
+                                    <input type="text" class="form-control" id="name_pokemon" name="name_pokemon" value="<?php echo $row_pokemon["name"]?>" aria-describedby="inputGroup-sizing-lg" required> 
+                                </div>
+                                <br>
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-lg">str</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="str_pokemon" name="str_pokemon"  value="<?php echo $row_pokemon["str"]?>" aria-describedby="inputGroup-sizing-lg" > 
+                                </div>
+                                <br>
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-lg">def</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="def_pokemon" name="def_pokemon"   value="<?php echo $row_pokemon["def"]?>" aria-describedby="inputGroup-sizing-lg" > 
+                                </div>
+                                <br>
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-lg">photo</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="photo_pokemon" name="photo_pokemon" value="<?php echo $row_pokemon["photo"]?>"  aria-describedby="inputGroup-sizing-lg" > 
+                                </div>
+                                <br>
+                                
+                                <input type="submit" name="button_pokemon_edit" id="button_pokemon_edit" value="Edit" class="btn btn btn-success"  />
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <?php
+        }
+        else
+        {   
+            $sql_element = 
+            "
+                SELECT 
+                    * 
+                FROM 
+                    element_tb
+                WHERE 
+                    id = '".$_GET["id"]."'
+            ";
+            $rslt_element = $mysqli->query($sql_element); 
+            $row_element = $rslt_element->fetch_assoc();
+            ?>
+            <div class="container">
+                <div class="row align-items-center h-100">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Data Element</h5>
+                                <form action="" method="POST">
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-lg">Nama</span>
+                                    </div>
+                                    <input type="hidden" class="form-control" id="id_element" name="id_element"  value="<?php echo $_GET["id"]?>" aria-describedby="inputGroup-sizing-lg" required> 
+                                    <input type="text" class="form-control" id="name_element" name="name_element"  value="<?php echo $row_element["name"]?>" aria-describedby="inputGroup-sizing-lg" required> 
+                                </div>
+                                <br>
+                            
+                                <input type="submit" name="button_element_edit" id="button_element_edit" value="Edit" class="btn btn btn-success"  />
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <?php 
+        }
+    }?>
+
+    <br>
+    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
