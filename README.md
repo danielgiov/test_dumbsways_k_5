@@ -1,7 +1,7 @@
 Readme 
 - Untuk semua jawaban menggunkan file PHP Versi 7.0 
 - Untuk jawaban Soal 1.php , 2.php , 3.php bisa di test pada url http://phptester.net/ 
-- Untuk Soal No 4 . 
+- Untuk Soal No 4 aplikasi sederhana untuk CRUD table pokemon. 
   Jika tidak bisa di test online maka harus di instal dilocal pc anda dengan XAMPP
   kemudian mengimport database mysqlnya pada PHPmyadmin , databasenya sudah saya upload pada repository ini dengan file 'web_pokemon.sql'
   kemudian pindahkan file 4.php pada directory tempat anda menyimpan XAMPP , misal : C:\xampp\htdocs
