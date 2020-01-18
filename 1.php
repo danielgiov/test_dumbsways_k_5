@@ -98,7 +98,7 @@ if(!isset($_POST["button"])) {
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Bunga</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext"  value="2.5 %">
+                    <input type="text" readonly class="form-control-plaintext"  value="2.5 % per Bulan">
                 </div>
             </div>
             <table class="table table-striped">
