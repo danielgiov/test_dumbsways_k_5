@@ -1,4 +1,3 @@
-
 <?php 
 
 function money($amount,$separator=true,$simple=false)
@@ -21,7 +20,7 @@ if(isset($_POST["uang"]))
     $jumlh_uang = $_POST["uang"];
     $total = 0;
     $tr_body='';
-    for($i = 1;$i <= 12; $i++)
+    for($i = 1;$i <= $_POST["bln"]; $i++)
     {
 
         $val_bunga = $jumlh_uang * 0.025;
@@ -44,13 +43,11 @@ if(isset($_POST["uang"]))
 }
 
 
-?>
 
-
-<!doctype html>
+echo '
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+    <!-- d meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -60,26 +57,27 @@ if(isset($_POST["uang"]))
     <title>Soal 1</title>
   </head>
   <body style="padding-top: 100px;padding-right: 30px;padding-bottom: 50px;padding-left: 80px;">
-    <?php if(!isset($_POST["button"])) {?>
+     '; 
+if(!isset($_POST["button"])) { 
+	echo '
     <div class="container">
         <div class="row align-items-center h-100">
                 <div class="card" >
                     <div class="card-body">
                         <h5 class="card-title">Program Cetak Bunga</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         <form action="" method="POST">
                         <div class="input-group input-group-lg">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">Masukan Harga</span>
                             </div>
-                            <input type="number" class="form-control" id="uang" name="uang"  value="3000000" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" required> 
+                            <input type="number" class="form-control" id="uang" name="uang"  value="3000000" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" d> 
                         </div>
                         <br>
                         <div class="input-group input-group-lg">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">Masukan Jumlah Bulan</span>
                             </div>
-                            <input type="number" max="12" min="1"  class="form-control" id="bln" name="bln" value="12" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" required >
+                            <input type="number" max="12" min="1"  class="form-control" id="bln" name="bln" value="12" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" d >
                         </div>
                         <br>
                         <input type="submit" name="button" id="button" value="Submit" class="btn btn btn-success"  />
@@ -87,13 +85,14 @@ if(isset($_POST["uang"]))
                     </div>
                 </div>
         </div>
-    </div>
-    <?php } else {?>
+    </div>';
+     } else {
+	echo '
         <div class="container">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Uang Awal</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext"  value="Rp <?php echo money($_POST["uang"])?>">
+                    <input type="text" readonly class="form-control-plaintext"  value="Rp  '.money($_POST["uang"]).'">
                 </div>
             </div>
             <div class="form-group row">
@@ -110,21 +109,20 @@ if(isset($_POST["uang"]))
                     <th scope="col" style="text-align: center;">Bunga</th>
                     <th scope="col" style="text-align: center;">Jumlah Uang</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php echo $tr_body;?>
-                </tbody>
+                </thead>';
+                     echo $tr_body;
+                echo '</tbody>
             </table>
             <br>
             <a href="1.php" class="btn btn-primary">Kembali</a>
             <button type="button" onclick="window.print();" class="btn btn-primary">Cetak</button>
-        </div>
-    <?php } ?>
+        </div>';
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+     } 
+echo '
+     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </body>
-</html>
+</html>';
+?>
